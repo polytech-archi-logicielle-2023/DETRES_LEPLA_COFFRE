@@ -1,6 +1,7 @@
 package com.example.demo.service;
-
 import org.springframework.stereotype.Service;
+
+import com.example.demo.model.Message;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
@@ -26,6 +27,9 @@ public class UserService {
         this.repository.save(user1);
         this.repository.save(user2);
     }
+
+
+
 
     public List<User> getAllUsers() {
         return this.repository.findAll();
@@ -63,6 +67,7 @@ public class UserService {
     public UserService(UserRepository repository) {
         this.repository = repository;
         this.initUsers();
+        this.initMessage();
     
     }
 
