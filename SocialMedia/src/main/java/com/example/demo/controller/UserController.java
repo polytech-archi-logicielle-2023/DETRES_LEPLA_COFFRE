@@ -6,6 +6,8 @@ import org.springframework.http.*;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import com.example.demo.mapper.*;
+import com.example.demo.dto.*;
 
 import java.util.*;
 
@@ -19,32 +21,39 @@ public class UserController {
         this.userService = userService;
     }
 
+
+    @GetMapping("")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> usersDtos = UserMapper.toUserDTOList(users);
+
+        return ResponseEntity.ok(usersDtos);
+    }
+
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer userId) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer userId) {
 
         User user = userService.getUserById(userId);
 
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         } 
-
-        return ResponseEntity.ok(user);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<User>> getAllUsers() {
-
-        return ResponseEntity.ok(userService.getAllUsers());
+        UserDTO dto = UserMapper.toUserDTO(user);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto) {
+        User fromDto = UserMapper.toUser(dto);
+        User createdUser = userService.createUser(fromDto);
         if (createdUser == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(user);
+        UserDTO createdUserDto = UserMapper.toUserDTO(createdUser);
+        return ResponseEntity.ok(createdUserDto);
     }
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<User> deleteUserById(@PathVariable Integer userId) {
 
@@ -55,7 +64,9 @@ public class UserController {
         } 
         userService.deleteUser(user); 
         return ResponseEntity.ok(user);
+    
     }
+
 
 }
 
