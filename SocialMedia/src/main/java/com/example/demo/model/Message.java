@@ -23,5 +23,5 @@ public class Message {
 
     @Column(name = "auteur", nullable = false, length = 45) // database definiton => will launch SQL exception
     // NB: words in name should be linked by underscore => name_of_column
-    private String auteur;
+    private Integer IDauteur;
 }

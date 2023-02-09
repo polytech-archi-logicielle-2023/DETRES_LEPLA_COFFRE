@@ -4,16 +4,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.*;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
+import com.example.demo.model.Message;
+import com.example.demo.service.MessageService;
 import com.example.demo.mapper.*;
 import com.example.demo.dto.*;
 
 import java.util.*;
 
-@RequestMapping("/users")
+@RequestMapping("/message")
 @Controller
 public class MessageController {
+
 
     private final MessageService messageService;
 
@@ -23,51 +24,38 @@ public class MessageController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<MessageDTO>> getAllMessage() {
 
-        List<User>  = messageService.getAllUsers();
-        List<UserDTO> usersDtos = UserMapper.toUserDTOList(users);
+        List<Message> message = messageService.getAllMessage();
+        List<MessageDTO> messageDtos = MessageMapper.toMessageDTOList(message);
 
-        return ResponseEntity.ok(usersDtos);
+        return ResponseEntity.ok(messageDtos);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer userId) {
+    @GetMapping("/{MessageId}")
+    public ResponseEntity<MessageDTO> getMessageById(@PathVariable Integer messageId) {
 
-        User user = messageService.getUserById(userId);
+        Message message = messageService.getMessageById(messageId);
 
-        if (user == null) {
+        if (message == null) {
             return ResponseEntity.notFound().build();
         } 
-        UserDTO dto = UserMapper.toUserDTO(user);
+        MessageDTO dto = MessageMapper.toMessageDTO(message);
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping("")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto) {
-        User fromDto = UserMapper.toUser(dto);
-        User createdUser = messageService.createUser(fromDto);
-        if (createdUser == null) {
+    public ResponseEntity<MessageDTO> createMessageUse(@RequestBody MessageDTO dto) {
+        Message fromDto = MessageMapper.toMessage(dto);
+        Message createdMessage = messageService.createMessage(fromDto);
+        if (createdMessage == null) {
             return ResponseEntity.badRequest().build();
         }
-        UserDTO createdUserDto = UserMapper.toUserDTO(createdUser);
-        return ResponseEntity.ok(createdUserDto);
+        MessageDTO createdMessageDto = MessageMapper.toMessageDTO(createdMessage);
+        return ResponseEntity.ok(createdMessageDto);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<User> deleteUserById(@PathVariable Integer userId) {
-
-        User user = messageService.getUserById(userId);
-
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } 
-        messageService.deleteUser(user); 
-        return ResponseEntity.ok(user);
     
-    }
-
-
 }
 
 

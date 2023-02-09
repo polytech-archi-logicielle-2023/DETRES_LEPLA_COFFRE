@@ -1,41 +1,42 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.MessageDTO;
-import com.example.demo.model.User;
+import com.example.demo.model.Message;
 
 import java.util.*;
 
 public class MessageMapper {
 
-    public static MessageDTO toUserDTO(Message message) {
+    public static MessageDTO toMessageDTO(Message message) {
         return MessageDTO.builder()
-                        .name(message.getName())
-                        .email(message.getEmail())
+                        .description(message.getDescription())
+                        .IDauteur(message.getIDauteur())
                         .build();
     }
 
-    public static List<MessageDTO> toUserDTOList(List<User> list) {
+    public static List<MessageDTO> toMessageDTOList(List<Message> list) {
         List<MessageDTO> dtoList = new ArrayList<>();
-        for (User user : list) {
-            dtoList.add(toMessageDTO(user));
+        for (Message message : list) {
+            dtoList.add(toMessageDTO(message));
         }
         return dtoList;
     }
     
-    public static User toUser(MessageDTO dto) {
-        return User.builder()
-                        .name(dto.getName())
-                        .email(dto.getEmail())
-                        .build();
+    public static Message toMessage(MessageDTO dto) {
+        return Message.builder()
+                  .description(dto.getDescription())
+                  .IDauteur(dto.getIDauteur())
+                  .build();
     }
 
-    public static List<User> toUserList(List<MessageDTO> list) {
-        List<User> userList = new ArrayList<>();
+    public static List<Message> toMessageList(List<MessageDTO> list) {
+        List<Message> messageList = new ArrayList<>();
         for (MessageDTO dto : list) {
-            userList.add(toUser(dto));
+            messageList.add(toMessage(dto));
         }
-        return userList;
+        return messageList;
     }
+    
     
     
 }

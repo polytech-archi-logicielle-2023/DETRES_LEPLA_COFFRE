@@ -5,5 +5,5 @@ import lombok.*;
 @Data
 public class MessageDTO {
     private String description;
-    private String auteur;
+    private Integer IDauteur;
 }
