@@ -57,5 +57,14 @@ public class MessageService {
         return null;
     }
 
+    public boolean deleteMessage(Message message) {
+
+        if (message != null) {
+            this.repository.deleteById(message.getIDauteur());
+            return true;
+        }
+        return false;
+    }
+
 
 }

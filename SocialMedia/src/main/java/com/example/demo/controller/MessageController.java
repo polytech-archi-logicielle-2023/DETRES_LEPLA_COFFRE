@@ -32,7 +32,7 @@ public class MessageController {
         return ResponseEntity.ok(messageDtos);
     }
 
-    @GetMapping("/{MessageId}")
+    @GetMapping("/{messageId}")
     public ResponseEntity<MessageDTO> getMessageById(@PathVariable Integer messageId) {
 
         Message message = messageService.getMessageById(messageId);
@@ -55,6 +55,17 @@ public class MessageController {
         return ResponseEntity.ok(createdMessageDto);
     }
 
+    @DeleteMapping("/{messageId}")
+    public ResponseEntity<Message> deleteMessageById(@PathVariable Integer messageId) {
+
+        Message message = messageService.getMessageById(messageId);
+
+        if (message == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        messageService.deleteMessage(message);
+        return ResponseEntity.ok(message);
+    }
     
 }
 
