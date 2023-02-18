@@ -20,7 +20,7 @@ services:
       - mariadb:/var/lib/mysql
       environment:
       - MYSQL_ROOT_PASSWORD=glopglop
-      - MYSQL_DATABASE=auth
+      - MYSQL_DATABASE=SocialMedia
       - MYSQL_USER=pifou
       - MYSQL_PASSWORD=pasglop
       networks:
